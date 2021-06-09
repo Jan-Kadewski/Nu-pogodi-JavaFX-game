@@ -6,6 +6,8 @@ import javafx.stage.Stage;
 public class MainMenuController {
     MainMenu mainMenu;
     GameView gameView;
+    HighScore highScore;
+    GameController gameController;
     public MainMenuController() {
         mainMenu = new MainMenu();
         showHighScore();
@@ -17,9 +19,9 @@ public class MainMenuController {
             if (event.getSource() == mainMenu.startGame) {
                 System.out.println("działa");
                 stage.close();
-                gameView = new GameView();
+                gameController = new GameController();
                 try {
-                    gameView.start(stage);
+                    gameController.gameView.start(stage);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -31,6 +33,8 @@ public class MainMenuController {
         mainMenu.highScore.setOnAction(event -> {
             if (event.getSource() == mainMenu.highScore) {
                 //TODO: TUTAJ ZAIMPLEMENTOWAĆ CZYTANIE Z PLIKU RANKINGU
+                highScore = new HighScore();
+
                 System.out.println("Czytam ranking z pliku");
             }
         });

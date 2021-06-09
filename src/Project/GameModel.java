@@ -1,7 +1,16 @@
 package Project;
 
 public class GameModel {
-    public static int score = 0;
-    public static final int healthPoint = 4;
-    public static int timer =0;
+    public static int score;
+    public static int healthPoint;
+    public static int timer;
+
+    public static int getHealthPoint() {
+        return healthPoint;
+    }
+    public static void setHealthPoint(int healthPoint) {
+        GameModel.healthPoint = healthPoint;
+    }
+
+
 }

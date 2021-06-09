@@ -1,5 +1,6 @@
 package Project;
 
+import Project.StaticResources.Labels;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -25,7 +26,7 @@ public class Main extends Application {
     public  void setCustomSettingsForMainMenuStage(Stage stage){
                 stage.setTitle("Nu pogodi");
                 stage.setScene(scene);
-                stage.getIcons().add(new Image("wolf.png"));
+                stage.getIcons().add(new Image("Project/StaticResources/Assets/wolf.png"));
                 stage.show();
     }
 
