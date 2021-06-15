@@ -1,15 +1,15 @@
 package Project;
 
 public class GameModel {
-    public static int score;
-    public static int healthPoint;
-    public static int timer;
-
-    public static int getHealthPoint() {
+    public  int score;
+    public  int healthPoint;
+    public  static int seconds;
+    public static int points;
+    public  int getHealthPoint() {
         return healthPoint;
     }
-    public static void setHealthPoint(int healthPoint) {
-        GameModel.healthPoint = healthPoint;
+    public  int setHealthPoint(int healthPoint) {
+        return 4;
     }
 
 

@@ -3,22 +3,33 @@ package Project;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class ResultDialogBox {
-
+    FileManipulation fileManipulation;
     public ResultDialogBox() {
-        initDialogBox();
+
+        try {
+            fileManipulation = new FileManipulation();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void initDialogBox() {
+    public  void initDialogBox() {
+
         Dialog dialog = new TextInputDialog();
         dialog.setTitle("Game over");
         dialog.setHeaderText("Your score is:" + " " + " Enter your name");
         Optional<String> result = dialog.showAndWait();
-        String entered = "none";
         if (result.isPresent()) {
-            entered = result.get();
+            fileManipulation.name = result.get();
+            try {
+                fileManipulation.saveToHighRank();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

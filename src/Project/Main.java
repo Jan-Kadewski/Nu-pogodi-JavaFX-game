@@ -19,6 +19,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         mainMenuController = new MainMenuController();
         mainMenuController.startGameAction(primaryStage);
+        mainMenuController.showHighScore(primaryStage);
         createRootGroupWithAddedElementsToScene();
         setCustomSettingsForMainMenuStage(primaryStage);
     }

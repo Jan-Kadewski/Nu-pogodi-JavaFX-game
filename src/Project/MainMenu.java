@@ -9,6 +9,8 @@ public class MainMenu {
     Button highScore;
     Button exit;
     Group root;
+    Group rootHighScore;
+    Button backToMenu;
 
     public MainMenu() {
         initMainMenuButtons();
