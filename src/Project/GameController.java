@@ -57,7 +57,7 @@ public class GameController {
     public void moveCharacterToRightTop() {
         gameView.btnRightTop.setOnAction(e -> {
             if (e.getSource() == gameView.btnRightTop) {
-                gameView.root.getChildren().removeAll(imageLeftDown,imageLeftTop,imageRightDown,imageRightTop);
+                gameView.root.getChildren().removeAll(imageLeftDown, imageLeftTop, imageRightDown, imageRightTop);
                 Image image = new Image("Project/StaticResources/Assets/TopRight");
                 imageRightTop = new ImageView(image);
                 imageRightTop.setX(440);
@@ -71,7 +71,7 @@ public class GameController {
     public void moveCharacterToLeftTop() {
         gameView.btnLeftTop.setOnAction(ev -> {
             if (ev.getSource() == gameView.btnLeftTop) {
-                gameView.root.getChildren().removeAll(imageRightTop,imageLeftDown,imageRightDown,imageLeftTop);
+                gameView.root.getChildren().removeAll(imageRightTop, imageLeftDown, imageRightDown, imageLeftTop);
                 Image image = new Image("Project/StaticResources/Assets/topLeft");
                 imageLeftTop = new ImageView(image);
                 imageLeftTop.setX(305);
@@ -84,7 +84,7 @@ public class GameController {
     public void moveCharacterToLeftDown() {
         gameView.btnLeftDown.setOnAction(ev -> {
             if (ev.getSource() == gameView.btnLeftDown) {
-                gameView.root.getChildren().removeAll(imageRightTop,imageLeftTop,imageRightDown,imageLeftDown);
+                gameView.root.getChildren().removeAll(imageRightTop, imageLeftTop, imageRightDown, imageLeftDown);
                 Image image = new Image("Project/StaticResources/Assets/downLeft");
                 imageLeftDown = new ImageView(image);
                 imageLeftDown.setX(315);
@@ -97,7 +97,7 @@ public class GameController {
     public void moveCharacterToRightDown() {
         gameView.btnRightDown.setOnAction(ev -> {
             if (ev.getSource() == gameView.btnRightDown) {
-                gameView.root.getChildren().removeAll(imageRightTop,imageLeftDown,imageLeftTop,imageRightDown);
+                gameView.root.getChildren().removeAll(imageRightTop, imageLeftDown, imageLeftTop, imageRightDown);
                 Image image = new Image("Project/StaticResources/Assets/downRight");
                 imageRightDown = new ImageView(image);
                 imageRightDown.setX(440);
@@ -107,7 +107,6 @@ public class GameController {
             }
         });
     }
-
 
 
 }

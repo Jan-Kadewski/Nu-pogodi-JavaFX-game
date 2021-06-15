@@ -1,5 +1,7 @@
 package Project;
 
+import javafx.animation.ParallelTransition;
+import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -14,6 +16,9 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -28,6 +33,7 @@ public class GameView extends Application {
     Button btnLeftTop;
     Button btnRightDown;
     Button btnLeftDown;
+
     public GameView() {
         gameModel = new GameModel();
         root = new Group();
@@ -67,7 +73,7 @@ public class GameView extends Application {
 
     public void createRootGroupWithAddedElementsToScene() {
 
-//        scene.setFill(new LinearGradient(0,0,1,1,true, CycleMethod.NO_CYCLE ,new Stop(0, Color.web("#81c483")),new Stop(1,Color.web("#fcc200"))));
+//      1000x600  scene.setFill(new LinearGradient(0,0,1,1,true, CycleMethod.NO_CYCLE ,new Stop(0, Color.web("#81c483")),new Stop(1,Color.web("#fcc200"))));
         addGrassToGame();
         addLeftRamps(170, 200, 320, 250);
         addLeftRamps(290, 200, 320, 370);
@@ -81,7 +87,7 @@ public class GameView extends Application {
         addChickensOnTheLeftSide(10, 190);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 60);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 190);
-
+        createEgg();
     }
 
     public void addGrassToGame() {
@@ -246,47 +252,54 @@ public class GameView extends Application {
         btnRightTop.setTranslateY(450);
         btnLeftTop.setTranslateX(200);
         btnLeftTop.setTranslateY(450);
-
         btnRightDown.setTranslateX(750);
         btnRightDown.setTranslateY(530);
-
         btnLeftDown.setTranslateX(200);
         btnLeftDown.setTranslateY(530);
-
         root.getChildren().addAll(btnLeftTop, btnRightTop, btnLeftDown, btnRightDown);
-
     }
 
 
-    public void showPointsNumber(){
+    public void showPointsNumber() {
         Label points = new Label();
-
         points.setText(String.valueOf(GameModel.points));
         root.getChildren().add(points);
     }
 
-    public void topRightImage(){
-        btnRightTop.setOnAction(e->{
-            if(e.getSource() == btnRightTop){
-                Image image = new Image("Project/StaticResources/Assets/TopRight");
-                ImageView imgContainer = new ImageView(image);
-                imgContainer.setX(440);
-                imgContainer.setY(250);
-                root.getChildren().add(imgContainer);
-            }
-        });
-    }
+    public void createEgg(){
+        Image eggImage = new Image("Project/StaticResources/Assets/egg2.png");
+        ImageView eggImageView = new ImageView(eggImage);
+        eggImageView.setX(450);
+        eggImageView.setY(200);
 
-    public void topLeftImage(){
-        btnRightTop.setOnAction(ev->{
-            if(ev.getSource() == btnLeftTop){
-                Image image = new Image("Project/StaticResources/Assets/topLeft");
-                ImageView imgContainer = new ImageView(image);
-                imgContainer.setX(360);
-                imgContainer.setY(250);
-                root.getChildren().add(imgContainer);
-            }
-        });
+        RotateTransition rotate = new RotateTransition(Duration.millis(5500),eggImageView);
+        rotate.setFromAngle(0);
+        rotate.setToAngle(-360);
+
+        Path path = new Path();
+        path.getElements().add(new MoveTo(790,155));
+        LineTo line1 = new LineTo(650,250);
+        LineTo line2 = new LineTo(550,759);
+        path.getElements().addAll(line1,line2);
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(5500));
+        pathTransition.setNode(eggImageView);
+        pathTransition.setPath(path);
+//        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+//        pathTransition.setCycleCount(550);
+//        pathTransition.setAutoReverse(false);
+//        pathTransition.play();
+
+        ParallelTransition parallelTransition = new ParallelTransition();
+        parallelTransition.getChildren().addAll(rotate,pathTransition);
+        parallelTransition.setAutoReverse(false);
+        parallelTransition.play();
+
+        root.getChildren().add(eggImageView);
+
+
+
+
     }
 
 }

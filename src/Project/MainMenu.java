@@ -9,12 +9,11 @@ public class MainMenu {
     Button highScore;
     Button exit;
     Group root;
-    Group rootHighScore;
     Button backToMenu;
 
     public MainMenu() {
         initMainMenuButtons();
-        CreateRootWithElements();
+        CreateRootWithMainMenuButttons();
     }
 
     public void initMainMenuButtons() {
@@ -33,7 +32,7 @@ public class MainMenu {
 
     }
 
-    public void CreateRootWithElements() {
+    public void CreateRootWithMainMenuButttons() {
         root = new Group();
         root.getChildren().addAll(startGame, highScore, exit);
     }
