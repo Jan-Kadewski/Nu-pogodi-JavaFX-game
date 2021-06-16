@@ -48,7 +48,7 @@ public class GameView extends Application {
     public void start(Stage stage) throws Exception {
         createRootGroupWithAddedElementsToScene();
         setCustomSettingsForMainMenuStage(stage);
-
+        stage.setOnCloseRequest(e->System.exit(0));
     }
 
     public void setCustomSettingsForMainMenuStage(Stage stage) {
@@ -88,6 +88,7 @@ public class GameView extends Application {
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 60);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 190);
         createEgg();
+        eggLeft();
     }
 
     public void addGrassToGame() {
@@ -196,7 +197,7 @@ public class GameView extends Application {
         transale.play();
     }
 
-    public void addChickensOnTheLeftSide(int x, int y) {
+    public void addChickensOnTheLeftSide(int x, int y){
         Image imageChicken = new Image("Project/StaticResources/Assets/chicken2.png");
         ImageView imageView = new ImageView(imageChicken);
         imageView.setX(x);
@@ -294,13 +295,42 @@ public class GameView extends Application {
         parallelTransition.getChildren().addAll(rotate,pathTransition);
         parallelTransition.setAutoReverse(false);
         parallelTransition.play();
-
         root.getChildren().add(eggImageView);
-
-
-
-
     }
+
+    public void eggLeft(){
+        Image eggImage = new Image("Project/StaticResources/Assets/egg2.png");
+        ImageView eggImageView = new ImageView(eggImage);
+        eggImageView.setX(150);
+        eggImageView.setY(200);
+
+        RotateTransition rotate = new RotateTransition(Duration.millis(5500),eggImageView);
+        rotate.setFromAngle(0);
+        rotate.setToAngle(-360);
+
+        Path path = new Path();
+        path.getElements().add(new MoveTo(390,155));
+        LineTo line1 = new LineTo(650,250);
+        LineTo line2 = new LineTo(550,759);
+        path.getElements().addAll(line1,line2);
+        PathTransition pathTransition = new PathTransition();
+        pathTransition.setDuration(Duration.millis(5500));
+        pathTransition.setNode(eggImageView);
+        pathTransition.setPath(path);
+//        pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+//        pathTransition.setCycleCount(550);
+//        pathTransition.setAutoReverse(false);
+//        pathTransition.play();
+
+        ParallelTransition parallelTransition = new ParallelTransition();
+        parallelTransition.getChildren().addAll(rotate,pathTransition);
+        parallelTransition.setAutoReverse(false);
+        parallelTransition.play();
+        root.getChildren().add(eggImageView);
+    }
+
+
+
 
 }
 

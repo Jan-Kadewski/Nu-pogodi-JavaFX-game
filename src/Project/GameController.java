@@ -22,14 +22,15 @@ public class GameController {
         moveCharacterToLeftTop();
         moveCharacterToLeftDown();
         moveCharacterToRightDown();
+        resultDialogBox = new ResultDialogBox();
         timer();
         Thread timer = new Thread(myRunnable);
         timer.start();
         gameView.gameModel.healthPoint = 0;
 
-        if (gameView.gameModel.healthPoint == 0) {
-            resultDialogBox = new ResultDialogBox();
-        }
+//        if (gameView.gameModel.healthPoint == 0) {
+//
+//        }
 
     }
 
