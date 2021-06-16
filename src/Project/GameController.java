@@ -14,7 +14,7 @@ public class GameController {
     ImageView imageRightTop;
     ImageView imageRightDown;
     ImageView imageLeftTop;
-
+    Image image;
 
     public GameController() {
         gameView = new GameView();
@@ -22,8 +22,10 @@ public class GameController {
         moveCharacterToLeftTop();
         moveCharacterToLeftDown();
         moveCharacterToRightDown();
+        image = new Image("Project/StaticResources/Assets/TopRight");
+        imageRightTop = new ImageView(image);
         resultDialogBox = new ResultDialogBox();
-        timer();
+//        timer();
         Thread timer = new Thread(myRunnable);
         timer.start();
         gameView.gameModel.healthPoint = 0;
@@ -59,8 +61,6 @@ public class GameController {
         gameView.btnRightTop.setOnAction(e -> {
             if (e.getSource() == gameView.btnRightTop) {
                 gameView.root.getChildren().removeAll(imageLeftDown, imageLeftTop, imageRightDown, imageRightTop);
-                Image image = new Image("Project/StaticResources/Assets/TopRight");
-                imageRightTop = new ImageView(image);
                 imageRightTop.setX(440);
                 imageRightTop.setY(250);
                 gameView.root.getChildren().add(imageRightTop);
@@ -108,6 +108,7 @@ public class GameController {
             }
         });
     }
+
 
 
 }

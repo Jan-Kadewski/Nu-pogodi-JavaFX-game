@@ -28,10 +28,8 @@ public class MainMenuController {
     public void startGameAction(Stage stage) {
         mainMenu.startGame.setOnAction(event -> {
             if (event.getSource() == mainMenu.startGame) {
-                System.out.println("działa");
                 stage.close();
                 gameController = new GameController();
-
                 try {
                     gameController.gameView.start(stage);
                 } catch (Exception e) {
