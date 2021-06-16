@@ -1,8 +1,11 @@
 package Project;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 import java.util.function.Predicate;
 
@@ -25,17 +28,13 @@ public class GameController {
         image = new Image("Project/StaticResources/Assets/TopRight");
         imageRightTop = new ImageView(image);
         resultDialogBox = new ResultDialogBox();
+        Thread myT = new Thread(myRunnable);
+        myT.start();
 //        timer();
-        Thread timer = new Thread(myRunnable);
-        timer.start();
+//        Thread timer = new Thread(myRunnable);
+//        timer.start();
         gameView.gameModel.healthPoint = 0;
-
-//        if (gameView.gameModel.healthPoint == 0) {
-//
-//        }
-
     }
-
     public void timer() {
         myRunnable = new Runnable() {
             boolean flag = false;
@@ -56,7 +55,6 @@ public class GameController {
             }
         };
     }
-
     public void moveCharacterToRightTop() {
         gameView.btnRightTop.setOnAction(e -> {
             if (e.getSource() == gameView.btnRightTop) {
@@ -68,7 +66,6 @@ public class GameController {
             }
         });
     }
-
     public void moveCharacterToLeftTop() {
         gameView.btnLeftTop.setOnAction(ev -> {
             if (ev.getSource() == gameView.btnLeftTop) {
@@ -81,34 +78,29 @@ public class GameController {
             }
         });
     }
-
     public void moveCharacterToLeftDown() {
         gameView.btnLeftDown.setOnAction(ev -> {
             if (ev.getSource() == gameView.btnLeftDown) {
                 gameView.root.getChildren().removeAll(imageRightTop, imageLeftTop, imageRightDown, imageLeftDown);
                 Image image = new Image("Project/StaticResources/Assets/downLeft");
                 imageLeftDown = new ImageView(image);
-                imageLeftDown.setX(315);
-                imageLeftDown.setY(320);
+                imageLeftDown.setX(325);
+                imageLeftDown.setY(326);
                 gameView.root.getChildren().add(imageLeftDown);
             }
         });
     }
-
     public void moveCharacterToRightDown() {
         gameView.btnRightDown.setOnAction(ev -> {
             if (ev.getSource() == gameView.btnRightDown) {
                 gameView.root.getChildren().removeAll(imageRightTop, imageLeftDown, imageLeftTop, imageRightDown);
                 Image image = new Image("Project/StaticResources/Assets/downRight");
                 imageRightDown = new ImageView(image);
-                imageRightDown.setX(440);
-                imageRightDown.setY(320);
+                imageRightDown.setX(420);
+                imageRightDown.setY(326);
                 gameView.root.getChildren().add(imageRightDown);
 
             }
         });
     }
-
-
-
 }

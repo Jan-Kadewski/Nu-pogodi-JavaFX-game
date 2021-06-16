@@ -38,6 +38,7 @@ public class GameView extends Application {
     Image eggImage;
     Path path;
     ParallelTransition parallelTransition;
+
     public GameView() {
         gameModel = new GameModel();
         root = new Group();
@@ -47,15 +48,13 @@ public class GameView extends Application {
         btnRightDown = new Button();
         btnLeftDown = new Button();
         eggImage = new Image("Project/StaticResources/Assets/egg2.png");
-        eggImageView = new ImageView(eggImage);
-        parallelTransition = new ParallelTransition();
-    }
+        }
 
     @Override
     public void start(Stage stage) throws Exception {
         createRootGroupWithAddedElementsToScene();
         setCustomSettingsForMainMenuStage(stage);
-        stage.setOnCloseRequest(e->System.exit(0));
+        stage.setOnCloseRequest(e -> System.exit(0));
         stage.isResizable();
     }
 
@@ -93,7 +92,10 @@ public class GameView extends Application {
         addChickensOnTheLeftSide(10, 190);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 60);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 190);
-        createEgg();
+        createEgg(790, 155, 620, 270, 650, 759, 5500);
+        createEgg(200, 155, 370, 270, 370, 759, 5500);
+        createEgg(200, 270, 370, 385, 370, 759, 5500);
+        createEgg(790, 270, 620, 390, 650, 759, 5500);
     }
 
     public void addGrassToGame() {
@@ -164,7 +166,6 @@ public class GameView extends Application {
         root.getChildren().add(verticalLine);
         root.getChildren().add(obliqueLine);
     }
-
     public void addBushTopRightCorner() {
         Image image = new Image("Project/StaticResources/Assets/rightCornetTree.png");
         ImageView imageView = new ImageView(image);
@@ -172,21 +173,18 @@ public class GameView extends Application {
         imageView.setY(0);
         root.getChildren().add(imageView);
     }
-
     public void addBushOnTheGround() {
         Image imageLeft = new Image("Project/StaticResources/Assets/bush_ground.png");
         ImageView imageViewLeft = new ImageView(imageLeft);
         imageViewLeft.setX(-85);
         imageViewLeft.setY(450);
         root.getChildren().add(imageViewLeft);
-
         Image imageRight = new Image("Project/StaticResources/Assets/bush_ground.png");
         ImageView imageViewRight = new ImageView(imageRight);
         imageViewRight.setX(830);
         imageViewRight.setY(450);
         root.getChildren().add(imageViewRight);
     }
-
     public void addCloudToGame() {
         Image image = new Image("Project/StaticResources/Assets/cloud.png");
         ImageView imageView = new ImageView(image);
@@ -201,8 +199,7 @@ public class GameView extends Application {
         transale.setAutoReverse(true);
         transale.play();
     }
-
-    public void addChickensOnTheLeftSide(int x, int y){
+    public void addChickensOnTheLeftSide(int x, int y) {
         Image imageChicken = new Image("Project/StaticResources/Assets/chicken2.png");
         ImageView imageView = new ImageView(imageChicken);
         imageView.setX(x);
@@ -216,7 +213,6 @@ public class GameView extends Application {
         transale.setAutoReverse(true);
         transale.play();
     }
-
     public void addChickensOnTheRightSide(int x, int y) {
         Image imageChicken = new Image("Project/StaticResources/Assets/chicken.png");
         ImageView imageView = new ImageView(imageChicken);
@@ -231,9 +227,7 @@ public class GameView extends Application {
         transale.setAutoReverse(true);
         transale.play();
     }
-
     public void buttonControls() {
-
         Image imgLeftDown = new Image("Project/StaticResources/Assets/arrowLeftDown.png");
         Image imgLeftTop = new Image("Project/StaticResources/Assets/arrowLeftTop.png");
         Image imgRightDown = new Image("Project/StaticResources/Assets/arrowRightDown.png");
@@ -264,70 +258,33 @@ public class GameView extends Application {
         btnLeftDown.setTranslateY(530);
         root.getChildren().addAll(btnLeftTop, btnRightTop, btnLeftDown, btnRightDown);
     }
-
-
     public void showPointsNumber() {
         Label points = new Label();
         points.setText(String.valueOf(GameModel.points));
         root.getChildren().add(points);
     }
+    public void createEgg(int moveX, int moveY, int line1X, int line1Y, int line2X, int line2Y, int durationMilis) {
+        eggImageView = new ImageView(eggImage);
+        parallelTransition = new ParallelTransition();
 
-    public void createEgg(){
-
-        RotateTransition rotate = new RotateTransition(Duration.millis(5500),eggImageView);
+        RotateTransition rotate = new RotateTransition(Duration.millis(durationMilis), eggImageView);
         rotate.setFromAngle(0);
         rotate.setToAngle(-360);
-
         path = new Path();
-        path.getElements().add(new MoveTo(790,155));
-        LineTo line1 = new LineTo(650,250);
-        LineTo line2 = new LineTo(550,759);
-        path.getElements().addAll(line1,line2);
+        path.getElements().addAll(new MoveTo(moveX, moveY));
+        LineTo line1 = new LineTo(line1X, line1Y);
+        LineTo line2 = new LineTo(line2X, line2Y);
+        path.getElements().addAll(line1, line2);
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(5500));
+        pathTransition.setDuration(Duration.millis(durationMilis));
         pathTransition.setNode(eggImageView);
         pathTransition.setPath(path);
-        parallelTransition.getChildren().addAll(rotate,pathTransition);
+        parallelTransition.getChildren().addAll(rotate, pathTransition);
         parallelTransition.setAutoReverse(false);
+        parallelTransition.setCycleCount(4);
         parallelTransition.play();
-        root.getChildren().add(eggImageView);
-
-
+        root.getChildren().addAll(eggImageView);
     }
-
-//    public void eggLeft(){
-//        Image eggImage = new Image("Project/StaticResources/Assets/egg2.png");
-//        ImageView eggImageView = new ImageView(eggImage);
-//        eggImageView.setX(150);
-//        eggImageView.setY(200);
-//
-//        RotateTransition rotate = new RotateTransition(Duration.millis(5500),eggImageView);
-//        rotate.setFromAngle(0);
-//        rotate.setToAngle(-360);
-//
-//        Path path = new Path();
-//        path.getElements().add(new MoveTo(390,155));
-//        LineTo line1 = new LineTo(650,250);
-//        LineTo line2 = new LineTo(550,759);
-//        path.getElements().addAll(line1,line2);
-//        PathTransition pathTransition = new PathTransition();
-//        pathTransition.setDuration(Duration.millis(5500));
-//        pathTransition.setNode(eggImageView);
-//        pathTransition.setPath(path);
-//
-//        ParallelTransition parallelTransition = new ParallelTransition();
-//        parallelTransition.getChildren().addAll(rotate,pathTransition);
-//        parallelTransition.setAutoReverse(false);
-//        parallelTransition.play();
-//        root.getChildren().add(eggImageView);
-//
-//
-//
-//    }
-
-
-
-
 }
 
 
