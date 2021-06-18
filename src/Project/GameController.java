@@ -1,18 +1,12 @@
 package Project;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 
-import java.util.function.Predicate;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameController {
     GameView gameView;
@@ -23,6 +17,12 @@ public class GameController {
     ImageView imageRightDown;
     ImageView imageLeftTop;
     Image image;
+    Runnable eggRunnable;
+    ImageView egg1 = null;
+    ImageView egg3 = null;
+
+    int boxX;
+    int boxY;
 
     public GameController() {
         gameView = new GameView();
@@ -35,7 +35,11 @@ public class GameController {
         moveByKeyboard();
         timer();
         Thread timer = new Thread(myRunnable);
+        Thread myEggThread = new Thread(eggRunnable);
+        myEggThread.start();
         timer.start();
+        boxX = 0;
+        boxY = 0;
     }
 
     public void initData(){
@@ -51,8 +55,8 @@ public class GameController {
             if (e.getSource() == gameView.btnRightTop) {
                 moveCharacterToRightTop();
                 //TODO: TEN fragment przekleić, gdy jajko wpadnie do koszyka
-                GameModel.points++;
-                gameView.gameScore.setText(String.valueOf(GameModel.points));
+//                GameModel.points++;
+//                gameView.gameScore.setText(String.valueOf(GameModel.points));
             }
         });
     }
@@ -97,6 +101,11 @@ public class GameController {
         imageLeftDown.setX(325);
         imageLeftDown.setY(326);
         gameView.root.getChildren().add(imageLeftDown);
+         boxX = 360;
+         boxY = 415;
+
+//        Line line = new Line(360, 415, 390, 430);
+//        line.setStroke(Color.BLACK);
     }
 
     public void moveCharacterToLeftTop() {
@@ -106,6 +115,7 @@ public class GameController {
         imageLeftTop.setX(305);
         imageLeftTop.setY(250);
         gameView.root.getChildren().add(imageLeftTop);
+        System.out.println(imageLeftTop);
     }
 
     public void moveCharacterToRightTop() {
@@ -141,11 +151,34 @@ public class GameController {
 
 
     public void generateEgs() {
-        int randomNumber = (int) Math.floor(Math.random() *4) +1;
-        System.out.println(randomNumber);
+
+        eggRunnable = new Runnable() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(500);
+                            generateEgg();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    });
+                };
+
+        };
+
+    };
+
+    public void generateEgg(){
+//        int randomNumber = (int) Math.floor(Math.random() *4) +1;
+        int randomNumber = 3;
         switch (randomNumber) {
             case 1:
-                gameView.createEgg(790, 155, 620, 270, 620, 759, 5500);
+                egg1 = gameView.createEgg(790, 155, 620, 270, 620, 759, 5500);
                 break;
 
             case 2:
@@ -153,7 +186,7 @@ public class GameController {
                 break;
 
             case 3:
-                gameView.createEgg(200, 270, 370, 385, 370, 759, 5500);
+                egg3 = gameView.createEgg(200, 270, 370, 385, 370, 759, 6000);
                 break;
 
             case 4:
@@ -161,7 +194,6 @@ public class GameController {
                 break;
 
         }
-
     }
     public void timer() {
         myRunnable = new Runnable() {
@@ -170,9 +202,29 @@ public class GameController {
             public void run() {
                 while (!flag) {
                     GameModel.seconds++;
-                    System.out.println(GameModel.seconds);
+//                    System.out.println(GameModel.seconds);
                     try {
-                        Thread.sleep(1000);
+                        if(egg3 != null){
+                            int minXEgg = (int) egg3.getBoundsInParent().getMinX();
+                            int minYEgg = (int) egg3.getBoundsInParent().getMinY();
+                            if(boxY < minYEgg + 10
+                                    && boxY +10 > minYEgg
+                                    && boxX > minXEgg - 20
+                                    && boxX < minXEgg + 20) {
+                                Platform.runLater(() -> {
+                                    gameView.root.getChildren().remove(egg3);
+                                    GameModel.points++;
+                                    gameView.gameScore.setText(String.valueOf(GameModel.points));
+                                    egg3 = null;
+                                });
+                            } else if(minYEgg  > 499){
+                              Platform.runLater( ()-> {
+                                  gameView.root.getChildren().remove(egg3);
+                              });
+
+                            }
+                        }
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

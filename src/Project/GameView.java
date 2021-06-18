@@ -1,11 +1,9 @@
 package Project;
 
-import javafx.animation.ParallelTransition;
-import javafx.animation.PathTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.geometry.Bounds;
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +20,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -196,10 +195,19 @@ public class GameView extends Application {
         TranslateTransition transale = new TranslateTransition();
         transale.setNode(imageView);
         transale.setDuration(Duration.millis(3000));
-        transale.setCycleCount(TranslateTransition.INDEFINITE);
         transale.setByX(150);
-        transale.setAutoReverse(true);
-        transale.play();
+
+
+        RotateTransition rotateTransition = new RotateTransition( new Duration(1000),imageView);
+        rotateTransition.setAxis(Rotate.Y_AXIS);
+        rotateTransition.setFromAngle(0);
+        rotateTransition.setToAngle(180);
+
+        SequentialTransition sequentialTransition = new SequentialTransition();
+        sequentialTransition.getChildren().addAll(transale,rotateTransition);
+        sequentialTransition.setAutoReverse(true);
+        sequentialTransition.setCycleCount(Animation.INDEFINITE);
+        sequentialTransition.play();
     }
     public void addChickensOnTheLeftSide(int x, int y) {
         Image imageChicken = new Image("Project/StaticResources/Assets/chicken2.png");
@@ -282,7 +290,7 @@ public class GameView extends Application {
     }
 
 
-    public void createEgg(int moveX, int moveY, int line1X, int line1Y, int line2X, int line2Y, int durationMilis) {
+    public ImageView createEgg(int moveX, int moveY, int line1X, int line1Y, int line2X, int line2Y, int durationMilis) {
         eggImageView = new ImageView(eggImage);
         parallelTransition = new ParallelTransition();
         RotateTransition rotate = new RotateTransition(Duration.millis(durationMilis), eggImageView);
@@ -299,9 +307,10 @@ public class GameView extends Application {
         pathTransition.setPath(path);
         parallelTransition.getChildren().addAll(rotate, pathTransition);
         parallelTransition.setAutoReverse(false);
-        parallelTransition.setCycleCount(4);
+        parallelTransition.setCycleCount(1);
         parallelTransition.play();
         root.getChildren().addAll(eggImageView);
+        return eggImageView;
     }
 }
 
