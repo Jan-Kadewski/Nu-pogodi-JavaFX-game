@@ -30,37 +30,20 @@ public class GameController {
         rightDownButtonListener();
         leftTOpButtonListener();
         leftDownButtonListener();
-        image = new Image("Project/StaticResources/Assets/TopRight");
-        imageRightTop = new ImageView(image);
-        resultDialogBox = new ResultDialogBox();
+        initData();
         generateEgs();
         moveByKeyboard();
-        GameModel.points = 0;
         timer();
         Thread timer = new Thread(myRunnable);
         timer.start();
-        gameView.gameModel.healthPoint = 4;
     }
 
-    public void timer() {
-        myRunnable = new Runnable() {
-            boolean flag = false;
-
-            public void run() {
-                while (!flag) {
-                    GameModel.seconds++;
-                    System.out.println(GameModel.seconds);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (resultDialogBox != null) {
-                    flag = true;
-                }
-            }
-        };
+    public void initData(){
+        GameModel.healthPoint= 4;
+        GameModel.points = 0;
+        image = new Image("Project/StaticResources/Assets/TopRight");
+        imageRightTop = new ImageView(image);
+        resultDialogBox = new ResultDialogBox();
     }
 
     public void rightTopButtonListener() {
@@ -158,11 +141,11 @@ public class GameController {
 
 
     public void generateEgs() {
-        int randomNumber = 1;
-
+        int randomNumber = (int) Math.floor(Math.random() *4) +1;
+        System.out.println(randomNumber);
         switch (randomNumber) {
             case 1:
-                gameView.createEgg(790, 155, 620, 270, 620, 350, 5500);
+                gameView.createEgg(790, 155, 620, 270, 620, 759, 5500);
                 break;
 
             case 2:
@@ -179,6 +162,26 @@ public class GameController {
 
         }
 
+    }
+    public void timer() {
+        myRunnable = new Runnable() {
+            boolean flag = false;
+
+            public void run() {
+                while (!flag) {
+                    GameModel.seconds++;
+                    System.out.println(GameModel.seconds);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (resultDialogBox != null) {
+                    flag = true;
+                }
+            }
+        };
     }
 
 }

@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
@@ -14,6 +15,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.swing.text.Position;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,9 +24,18 @@ public class MainMenuController {
     MainMenu mainMenu;
     Scene highScoreScene;
     GameController gameController;
+    FileManipulation fileManipulation;
+    Button backToMenu;
+    Main main;
     public MainMenuController() {
         mainMenu = new MainMenu();
+        backToMenu = new Button("Back");
         exitProgram();
+        try {
+            fileManipulation = new FileManipulation();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void startGameAction(Stage stage) {
@@ -39,18 +51,27 @@ public class MainMenuController {
             }
         });
     }
-
     public void showHighScore(Stage stage) {
         mainMenu.highScore.setOnAction(event -> {
             if (event.getSource() == mainMenu.highScore) {
-                HBox hBox = new HBox();
-                FileManipulation.readHighRankFromFile();
+                HBox HBox = new HBox();
+                Label label = new Label("Latest results");
+                backToMenu.setPrefSize(100,30);
+                label.setTranslateX(150);
+                label.setPrefSize(150,20);
+                fileManipulation.readHighRankFromFile();
                 ListView listView = new ListView();
-//                listView.getItems().add(gameController.resultDialogBox.fileManipulation.name + "time" + GameModel.seconds +10 );
-                hBox.getChildren().add(listView);
-                highScoreScene = new Scene(hBox,400,200);
+                listView.getItems().add("działa");
+                listView.getItems().add("działa");
+                listView.getItems().add("działa");
+                listView.getItems().add("działa");
+                listView.getItems().add("działa");
+                listView.setMinSize(350,350);
+                listView.setTranslateY(30);
+                HBox.getChildren().addAll(backToMenu,label,listView);
+                highScoreScene = new Scene(HBox,500,500);
                 stage.setScene(highScoreScene);
-
+                stage.setTitle("Latest score");
             }
         });
     }
@@ -62,6 +83,17 @@ public class MainMenuController {
         });
     }
 
-
-
+    public void backToMenuFromHighScore(Stage stage){
+        backToMenu.setOnAction(e->{
+            if(e.getSource() == backToMenu){
+                stage.close();
+                main = new Main();
+                try {
+                    main.start(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        });
+    }
 }

@@ -2,7 +2,7 @@ package Project;
 
 public class GameModel {
     public  int score;
-    public  int healthPoint;
+    public static  int healthPoint;
     public  static int seconds;
     public static int points;
     public  int getHealthPoint() {

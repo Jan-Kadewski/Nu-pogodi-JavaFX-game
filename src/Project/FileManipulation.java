@@ -1,19 +1,22 @@
 package Project;
 
+import javax.swing.text.html.ListView;
 import java.io.*;
 
 public class FileManipulation {
 
     String name;
     int points;
+    ListView rankingView;
 
     public FileManipulation() throws IOException {
-
-        try {
-            saveToHighRank();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        rankingView = new ListView(null);
+//
+//        try {
+//            saveToHighRank();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -25,12 +28,13 @@ public class FileManipulation {
 
 
     }
-    public static void readHighRankFromFile(){
+    public  void readHighRankFromFile(){
         try {
             FileReader reader = new FileReader("highScore.txt");
             int character;
 
             while ((character = reader.read()) != -1) {
+
                 System.out.print((char) character);
             }
             reader.close();

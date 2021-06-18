@@ -59,7 +59,7 @@ public class GameView extends Application {
         createRootGroupWithAddedElementsToScene();
         setCustomSettingsForMainMenuStage(stage);
         stage.setOnCloseRequest(e -> System.exit(0));
-        stage.isResizable();
+        stage.setResizable(false);
     }
 
     public void setCustomSettingsForMainMenuStage(Stage stage) {

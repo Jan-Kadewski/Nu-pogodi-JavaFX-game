@@ -20,8 +20,10 @@ public class Main extends Application {
         mainMenuController = new MainMenuController();
         mainMenuController.startGameAction(primaryStage);
         mainMenuController.showHighScore(primaryStage);
+        mainMenuController.backToMenuFromHighScore(primaryStage);
         createRootGroupWithAddedElementsToScene();
         setCustomSettingsForMainMenuStage(primaryStage);
+        primaryStage.setResizable(false);
     }
 
     public  void setCustomSettingsForMainMenuStage(Stage stage){
