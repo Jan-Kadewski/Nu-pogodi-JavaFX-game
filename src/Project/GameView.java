@@ -40,6 +40,11 @@ public class GameView extends Application {
     Path path;
     ParallelTransition parallelTransition;
     Label gameScore;
+    ImageView life1 = null;
+    ImageView life2 = null;
+    ImageView life3 = null;
+    ImageView life4 = null;
+
     public GameView() {
         gameModel = new GameModel();
         root = new Group();
@@ -51,7 +56,7 @@ public class GameView extends Application {
         eggImage = new Image("Project/StaticResources/Assets/egg2.png");
         gameScore = new Label();
         showScorePoint();
-        }
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -67,6 +72,7 @@ public class GameView extends Application {
         Runnable rn = () -> {
             stage.close();
             main = new Main();
+            GameModel.points =0;
             try {
                 main.start(stage);
             } catch (Exception e) {
@@ -95,11 +101,12 @@ public class GameView extends Application {
         addChickensOnTheLeftSide(10, 190);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 60);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 190);
-        showLifeImages(600,100);
-        showLifeImages(565,100);
-        showLifeImages(530,100);
-        showLifeImages(495,100);
+        life4 = showLifeImages(600, 100);
+        life3 = showLifeImages(565, 100);
+        life2 = showLifeImages(530, 100);
+        life1 = showLifeImages(495, 100);
     }
+
 
     public void addGrassToGame() {
         for (int i = 0; i < scene.getWidth(); i += 15) {
@@ -167,6 +174,7 @@ public class GameView extends Application {
         root.getChildren().add(verticalLine);
         root.getChildren().add(obliqueLine);
     }
+
     public void addBushTopRightCorner() {
         Image image = new Image("Project/StaticResources/Assets/rightCornetTree.png");
         ImageView imageView = new ImageView(image);
@@ -174,6 +182,7 @@ public class GameView extends Application {
         imageView.setY(0);
         root.getChildren().add(imageView);
     }
+
     public void addBushOnTheGround() {
         Image imageLeft = new Image("Project/StaticResources/Assets/bush_ground.png");
         ImageView imageViewLeft = new ImageView(imageLeft);
@@ -186,6 +195,7 @@ public class GameView extends Application {
         imageViewRight.setY(450);
         root.getChildren().add(imageViewRight);
     }
+
     public void addCloudToGame() {
         Image image = new Image("Project/StaticResources/Assets/cloud.png");
         ImageView imageView = new ImageView(image);
@@ -198,17 +208,18 @@ public class GameView extends Application {
         transale.setByX(150);
 
 
-        RotateTransition rotateTransition = new RotateTransition( new Duration(1000),imageView);
+        RotateTransition rotateTransition = new RotateTransition(new Duration(1000), imageView);
         rotateTransition.setAxis(Rotate.Y_AXIS);
         rotateTransition.setFromAngle(0);
         rotateTransition.setToAngle(180);
 
         SequentialTransition sequentialTransition = new SequentialTransition();
-        sequentialTransition.getChildren().addAll(transale,rotateTransition);
+        sequentialTransition.getChildren().addAll(transale, rotateTransition);
         sequentialTransition.setAutoReverse(true);
         sequentialTransition.setCycleCount(Animation.INDEFINITE);
         sequentialTransition.play();
     }
+
     public void addChickensOnTheLeftSide(int x, int y) {
         Image imageChicken = new Image("Project/StaticResources/Assets/chicken2.png");
         ImageView imageView = new ImageView(imageChicken);
@@ -223,6 +234,7 @@ public class GameView extends Application {
         transale.setAutoReverse(true);
         transale.play();
     }
+
     public void addChickensOnTheRightSide(int x, int y) {
         Image imageChicken = new Image("Project/StaticResources/Assets/chicken.png");
         ImageView imageView = new ImageView(imageChicken);
@@ -237,6 +249,7 @@ public class GameView extends Application {
         transale.setAutoReverse(true);
         transale.play();
     }
+
     public void buttonControls() {
         Image imgLeftDown = new Image("Project/StaticResources/Assets/arrowLeftDown.png");
         Image imgLeftTop = new Image("Project/StaticResources/Assets/arrowLeftTop.png");
@@ -272,21 +285,23 @@ public class GameView extends Application {
         btnLeftDown.setTranslateY(530);
         root.getChildren().addAll(btnLeftTop, btnRightTop, btnLeftDown, btnRightDown);
     }
+
     public void showScorePoint() {
         gameScore.setText(String.valueOf(GameModel.points));
-        gameScore.setFont(Font.loadFont("file:resources/fonts/Jersey.ttf",50));
+        gameScore.setFont(Font.loadFont("file:resources/fonts/Jersey.ttf", 50));
         gameScore.setTextFill(Color.WHITE);
         gameScore.setTranslateX(730);
         gameScore.setTranslateY(8);
         root.getChildren().add(gameScore);
     }
 
-    public void showLifeImages(int horizontal, int vertical){
+    public ImageView showLifeImages(int horizontal, int vertical) {
         Image image = new Image("Project/StaticResources/Assets/lifeIcon.png");
         ImageView imageView = new ImageView(image);
         imageView.setX(horizontal);
         imageView.setY(vertical);
         root.getChildren().add(imageView);
+        return imageView;
     }
 
 
@@ -305,7 +320,7 @@ public class GameView extends Application {
         pathTransition.setDuration(Duration.millis(durationMilis));
         pathTransition.setNode(eggImageView);
         pathTransition.setPath(path);
-        parallelTransition.getChildren().addAll(rotate, pathTransition);
+        parallelTransition.getChildren().addAll( rotate,pathTransition);
         parallelTransition.setAutoReverse(false);
         parallelTransition.setCycleCount(1);
         parallelTransition.play();

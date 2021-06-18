@@ -31,7 +31,8 @@ public class GameController {
         leftTOpButtonListener();
         leftDownButtonListener();
         initData();
-        generateEgs();
+//        generateEgs();
+        generateEgg();
         moveByKeyboard();
         timer();
         Thread timer = new Thread(myRunnable);
@@ -42,8 +43,8 @@ public class GameController {
         boxY = 0;
     }
 
-    public void initData(){
-        GameModel.healthPoint= 4;
+    public void initData() {
+        GameModel.healthPoint = 4;
         GameModel.points = 0;
         image = new Image("Project/StaticResources/Assets/TopRight");
         imageRightTop = new ImageView(image);
@@ -92,6 +93,8 @@ public class GameController {
         imageRightDown.setX(420);
         imageRightDown.setY(326);
         gameView.root.getChildren().add(imageRightDown);
+        boxX = 0;
+        boxY = 0;
     }
 
     public void moveCharacterToLeftDown() {
@@ -101,8 +104,8 @@ public class GameController {
         imageLeftDown.setX(325);
         imageLeftDown.setY(326);
         gameView.root.getChildren().add(imageLeftDown);
-         boxX = 360;
-         boxY = 415;
+        boxX = 360;
+        boxY = 415;
 
 //        Line line = new Line(360, 415, 390, 430);
 //        line.setStroke(Color.BLACK);
@@ -116,6 +119,9 @@ public class GameController {
         imageLeftTop.setY(250);
         gameView.root.getChildren().add(imageLeftTop);
         System.out.println(imageLeftTop);
+        boxX = 0;
+        boxY = 0;
+
     }
 
     public void moveCharacterToRightTop() {
@@ -124,6 +130,8 @@ public class GameController {
         imageRightTop.setX(440);
         imageRightTop.setY(250);
         gameView.root.getChildren().add(imageRightTop);
+        boxX = 0;
+        boxY = 0;
     }
 
 
@@ -149,31 +157,35 @@ public class GameController {
         });
     }
 
+//
+//    public void generateEgs() {
+//
+//        eggRunnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                Platform.runLater(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            Thread.sleep(500);
+//                            generateEgg();
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//                });
+//            }
+//
+//            ;
+//
+//        };
+//
+//    }
 
-    public void generateEgs() {
+    ;
 
-        eggRunnable = new Runnable() {
-            @Override
-            public void run() {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(500);
-                            generateEgg();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                    });
-                };
-
-        };
-
-    };
-
-    public void generateEgg(){
+    public void generateEgg() {
 //        int randomNumber = (int) Math.floor(Math.random() *4) +1;
         int randomNumber = 3;
         switch (randomNumber) {
@@ -195,6 +207,7 @@ public class GameController {
 
         }
     }
+
     public void timer() {
         myRunnable = new Runnable() {
             boolean flag = false;
@@ -204,23 +217,45 @@ public class GameController {
                     GameModel.seconds++;
 //                    System.out.println(GameModel.seconds);
                     try {
-                        if(egg3 != null){
+                        if (egg3 != null) {
                             int minXEgg = (int) egg3.getBoundsInParent().getMinX();
                             int minYEgg = (int) egg3.getBoundsInParent().getMinY();
-                            if(boxY < minYEgg + 10
-                                    && boxY +10 > minYEgg
-                                    && boxX > minXEgg - 20
-                                    && boxX < minXEgg + 20) {
+
+                            System.out.println(minXEgg + " minXEgg ");
+                            System.out.println(minYEgg + " minYEgg ");
+
+
+                            if (boxY < minYEgg + 10
+                                    && boxY + 10 > minYEgg
+                                    && boxX +5 > minXEgg - 20
+                                    && boxX +5 < minXEgg + 20) {
+                                System.out.println(boxY + " boxY");
+                                System.out.println(boxX + " boxX");
                                 Platform.runLater(() -> {
                                     gameView.root.getChildren().remove(egg3);
                                     GameModel.points++;
                                     gameView.gameScore.setText(String.valueOf(GameModel.points));
                                     egg3 = null;
+                                    generateEgg();
+
                                 });
-                            } else if(minYEgg  > 499){
-                              Platform.runLater( ()-> {
-                                  gameView.root.getChildren().remove(egg3);
-                              });
+                            } else if (minYEgg > 499 && minYEgg < 505) {
+                                Platform.runLater(() -> {
+                                    gameView.root.getChildren().remove(egg3);
+                                    generateEgg();
+                                    if (GameModel.healthPoint == 4) {
+                                        gameView.root.getChildren().remove(gameView.life4);
+                                    } else if (GameModel.healthPoint == 3) {
+                                        gameView.root.getChildren().remove(gameView.life3);
+                                    } else if (GameModel.healthPoint == 2) {
+                                        gameView.root.getChildren().remove(gameView.life2);
+                                    } else if (GameModel.healthPoint == 1) {
+                                        gameView.root.getChildren().remove(gameView.life1);
+                                    }
+                                    GameModel.healthPoint--;
+                                    System.out.println(GameModel.healthPoint);
+
+                                });
 
                             }
                         }
@@ -228,6 +263,7 @@ public class GameController {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                 }
                 if (resultDialogBox != null) {
                     flag = true;
