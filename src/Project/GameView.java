@@ -92,10 +92,10 @@ public class GameView extends Application {
         addChickensOnTheLeftSide(10, 190);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 60);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 190);
-        createEgg(790, 155, 620, 270, 650, 759, 5500);
-        createEgg(200, 155, 370, 270, 370, 759, 5500);
-        createEgg(200, 270, 370, 385, 370, 759, 5500);
-        createEgg(790, 270, 620, 390, 650, 759, 5500);
+//        createEgg(790, 155, 620, 270, 650, 759, 5500);
+//        createEgg(200, 155, 370, 270, 370, 759, 5500);
+//        createEgg(200, 270, 370, 385, 370, 759, 5500);
+//        createEgg(790, 270, 620, 390, 650, 759, 5500);
     }
 
     public void addGrassToGame() {
@@ -239,6 +239,10 @@ public class GameView extends Application {
         viewLeftDown.setFitHeight(24);
         viewLeftDown.setPreserveRatio(true);
         btnLeftDown.setGraphic(viewLeftDown);
+        btnRightTop.setFocusTraversable(false);
+        btnLeftDown.setFocusTraversable(false);
+        btnRightDown.setFocusTraversable(false);
+        btnLeftTop.setFocusTraversable(false);
         viewLeftTop.setFitHeight(24);
         viewLeftTop.setPreserveRatio(true);
         btnLeftTop.setGraphic(viewLeftTop);
