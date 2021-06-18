@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -20,6 +21,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -38,7 +40,7 @@ public class GameView extends Application {
     Image eggImage;
     Path path;
     ParallelTransition parallelTransition;
-
+    Label gameScore;
     public GameView() {
         gameModel = new GameModel();
         root = new Group();
@@ -48,6 +50,8 @@ public class GameView extends Application {
         btnRightDown = new Button();
         btnLeftDown = new Button();
         eggImage = new Image("Project/StaticResources/Assets/egg2.png");
+        gameScore = new Label();
+        showScorePoint();
         }
 
     @Override
@@ -92,10 +96,10 @@ public class GameView extends Application {
         addChickensOnTheLeftSide(10, 190);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 60);
         addChickensOnTheRightSide((int) (scene.getWidth() - 80), 190);
-//        createEgg(790, 155, 620, 270, 650, 759, 5500);
-//        createEgg(200, 155, 370, 270, 370, 759, 5500);
-//        createEgg(200, 270, 370, 385, 370, 759, 5500);
-//        createEgg(790, 270, 620, 390, 650, 759, 5500);
+        showLifeImages(600,100);
+        showLifeImages(565,100);
+        showLifeImages(530,100);
+        showLifeImages(495,100);
     }
 
     public void addGrassToGame() {
@@ -123,7 +127,6 @@ public class GameView extends Application {
         verticalLine.setEndY(verticalHeightLine + 30);
         verticalLine.setStrokeWidth(4);
         verticalLine.setStroke(Color.SADDLEBROWN);
-
         Line obliqueLine = new Line();
         obliqueLine.setStartX(widthLine);
         obliqueLine.setEndX(widthLine + 150);
@@ -131,7 +134,6 @@ public class GameView extends Application {
         obliqueLine.setEndY(heightLine + 100);
         obliqueLine.setStrokeWidth(4);
         obliqueLine.setStroke(Color.SADDLEBROWN);
-
         root.getChildren().add(horizontalLine);
         root.getChildren().add(verticalLine);
         root.getChildren().add(obliqueLine);
@@ -188,14 +190,14 @@ public class GameView extends Application {
     public void addCloudToGame() {
         Image image = new Image("Project/StaticResources/Assets/cloud.png");
         ImageView imageView = new ImageView(image);
-        imageView.setX(400);
+        imageView.setX(300);
         imageView.setY(0);
         root.getChildren().add(imageView);
         TranslateTransition transale = new TranslateTransition();
         transale.setNode(imageView);
         transale.setDuration(Duration.millis(3000));
         transale.setCycleCount(TranslateTransition.INDEFINITE);
-        transale.setByX(200);
+        transale.setByX(150);
         transale.setAutoReverse(true);
         transale.play();
     }
@@ -262,15 +264,27 @@ public class GameView extends Application {
         btnLeftDown.setTranslateY(530);
         root.getChildren().addAll(btnLeftTop, btnRightTop, btnLeftDown, btnRightDown);
     }
-    public void showPointsNumber() {
-        Label points = new Label();
-        points.setText(String.valueOf(GameModel.points));
-        root.getChildren().add(points);
+    public void showScorePoint() {
+        gameScore.setText(String.valueOf(GameModel.points));
+        gameScore.setFont(Font.loadFont("file:resources/fonts/Jersey.ttf",50));
+        gameScore.setTextFill(Color.WHITE);
+        gameScore.setTranslateX(730);
+        gameScore.setTranslateY(8);
+        root.getChildren().add(gameScore);
     }
+
+    public void showLifeImages(int horizontal, int vertical){
+        Image image = new Image("Project/StaticResources/Assets/lifeIcon.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setX(horizontal);
+        imageView.setY(vertical);
+        root.getChildren().add(imageView);
+    }
+
+
     public void createEgg(int moveX, int moveY, int line1X, int line1Y, int line2X, int line2Y, int durationMilis) {
         eggImageView = new ImageView(eggImage);
         parallelTransition = new ParallelTransition();
-
         RotateTransition rotate = new RotateTransition(Duration.millis(durationMilis), eggImageView);
         rotate.setFromAngle(0);
         rotate.setToAngle(-360);

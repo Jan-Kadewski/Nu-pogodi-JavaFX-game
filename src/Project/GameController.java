@@ -35,10 +35,11 @@ public class GameController {
         resultDialogBox = new ResultDialogBox();
         generateEgs();
         moveByKeyboard();
-//        timer();
-//        Thread timer = new Thread(myRunnable);
-//        timer.start();
-        gameView.gameModel.healthPoint = 0;
+        GameModel.points = 0;
+        timer();
+        Thread timer = new Thread(myRunnable);
+        timer.start();
+        gameView.gameModel.healthPoint = 4;
     }
 
     public void timer() {
@@ -66,6 +67,9 @@ public class GameController {
         gameView.btnRightTop.setOnAction(e -> {
             if (e.getSource() == gameView.btnRightTop) {
                 moveCharacterToRightTop();
+                //TODO: TEN fragment przekleić, gdy jajko wpadnie do koszyka
+                GameModel.points++;
+                gameView.gameScore.setText(String.valueOf(GameModel.points));
             }
         });
     }
