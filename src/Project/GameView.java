@@ -44,7 +44,7 @@ public class GameView extends Application {
     ImageView life2 = null;
     ImageView life3 = null;
     ImageView life4 = null;
-
+    Stage stage;
     public GameView() {
         gameModel = new GameModel();
         root = new Group();
@@ -64,6 +64,7 @@ public class GameView extends Application {
         setCustomSettingsForMainMenuStage(stage);
         stage.setOnCloseRequest(e -> System.exit(0));
         stage.setResizable(false);
+        this.stage = stage;
     }
 
     public void setCustomSettingsForMainMenuStage(Stage stage) {

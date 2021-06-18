@@ -2,6 +2,9 @@ package Project;
 
 import javax.swing.text.html.ListView;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class FileManipulation {
 
@@ -10,7 +13,6 @@ public class FileManipulation {
     ListView rankingView;
 
     public FileManipulation() throws IOException {
-        rankingView = new ListView(null);
 //
 //        try {
 //            saveToHighRank();
@@ -20,30 +22,34 @@ public class FileManipulation {
 
     }
 
-    public  void saveToHighRank() throws IOException {
+    public void saveToHighRank() throws IOException {
         FileWriter writer = new FileWriter("highScore.txt", true);
-        writer.write(name +" " + points+ " :" );
-        writer.write("\r\n");   // write new line
-        writer.close();
+//        writer.write("\r\n");   // write new line
+//        writer.close();
 
-
+        BufferedWriter out = new BufferedWriter(writer);
+        out.write(name + " " + GameModel.points + " :");
+        out.newLine();
+        out.close();
     }
-    public  void readHighRankFromFile(){
+
+    public List<String> readHighRankFromFile() {
         try {
-            FileReader reader = new FileReader("highScore.txt");
-            int character;
-
-            while ((character = reader.read()) != -1) {
-
-                System.out.print((char) character);
+            // open file to read
+            Scanner scanner = new Scanner(new File("highScore.txt"));
+            List<String> lines = new ArrayList<>();
+            // read until end of file (EOF)
+            while (scanner.hasNextLine()) {
+                lines.add(scanner.nextLine());
             }
-            reader.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            // close the scanner
+            scanner.close();
+            return lines;
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
         }
+        return null;
     }
-
-
-    }
+}
 

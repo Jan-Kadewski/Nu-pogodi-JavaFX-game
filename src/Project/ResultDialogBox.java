@@ -1,5 +1,6 @@
 package Project;
 
+import javafx.application.Platform;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
 
@@ -8,16 +9,21 @@ import java.util.Optional;
 
 public class ResultDialogBox {
     FileManipulation fileManipulation;
+
     public ResultDialogBox() {
 
         try {
+            Platform.runLater(() -> {
+                initDialogBox();
+
+            });
             fileManipulation = new FileManipulation();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public  void initDialogBox() {
+    public void initDialogBox() {
 
         Dialog dialog = new TextInputDialog();
         dialog.setTitle("Game over");

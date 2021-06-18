@@ -59,13 +59,11 @@ public class MainMenuController {
                 backToMenu.setPrefSize(100,30);
                 label.setTranslateX(150);
                 label.setPrefSize(150,20);
-                fileManipulation.readHighRankFromFile();
+                List<String> lines = fileManipulation.readHighRankFromFile();
                 ListView listView = new ListView();
-                listView.getItems().add("działa");
-                listView.getItems().add("działa");
-                listView.getItems().add("działa");
-                listView.getItems().add("działa");
-                listView.getItems().add("działa");
+                for(int i=0;i<lines.size();i++){
+                    listView.getItems().add(lines.get(i));
+                }
                 listView.setMinSize(350,350);
                 listView.setTranslateY(30);
                 HBox.getChildren().addAll(backToMenu,label,listView);

@@ -2,9 +2,13 @@ package Project;
 
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -48,7 +52,6 @@ public class GameController {
         GameModel.points = 0;
         image = new Image("Project/StaticResources/Assets/TopRight");
         imageRightTop = new ImageView(image);
-        resultDialogBox = new ResultDialogBox();
     }
 
     public void rightTopButtonListener() {
@@ -207,7 +210,6 @@ public class GameController {
 
         }
     }
-
     public void timer() {
         myRunnable = new Runnable() {
             boolean flag = false;
@@ -215,22 +217,22 @@ public class GameController {
             public void run() {
                 while (!flag) {
                     GameModel.seconds++;
-//                    System.out.println(GameModel.seconds);
+                    System.out.println(GameModel.seconds);
                     try {
                         if (egg3 != null) {
                             int minXEgg = (int) egg3.getBoundsInParent().getMinX();
                             int minYEgg = (int) egg3.getBoundsInParent().getMinY();
 
-                            System.out.println(minXEgg + " minXEgg ");
-                            System.out.println(minYEgg + " minYEgg ");
+//                            System.out.println(minXEgg + " minXEgg ");
+//                            System.out.println(minYEgg + " minYEgg ");
 
 
                             if (boxY < minYEgg + 10
                                     && boxY + 10 > minYEgg
-                                    && boxX +5 > minXEgg - 20
-                                    && boxX +5 < minXEgg + 20) {
-                                System.out.println(boxY + " boxY");
-                                System.out.println(boxX + " boxX");
+                                    && boxX + 5 > minXEgg - 20
+                                    && boxX + 5 < minXEgg + 20) {
+//                                System.out.println(boxY + " boxY");
+//                                System.out.println(boxX + " boxX");
                                 Platform.runLater(() -> {
                                     gameView.root.getChildren().remove(egg3);
                                     GameModel.points++;
@@ -251,6 +253,8 @@ public class GameController {
                                         gameView.root.getChildren().remove(gameView.life2);
                                     } else if (GameModel.healthPoint == 1) {
                                         gameView.root.getChildren().remove(gameView.life1);
+                                        new ResultDialogBox();
+                                        gameView.stage.close();
                                     }
                                     GameModel.healthPoint--;
                                     System.out.println(GameModel.healthPoint);
@@ -261,13 +265,20 @@ public class GameController {
                         }
                         Thread.sleep(50);
                     } catch (InterruptedException e) {
+
                         e.printStackTrace();
                     }
+                    if (GameModel.healthPoint == 0) {
 
+                        Platform.runLater( () -> {
+
+                        } );
+
+                        flag = true;
+
+                    }
                 }
-                if (resultDialogBox != null) {
-                    flag = true;
-                }
+
             }
         };
     }
